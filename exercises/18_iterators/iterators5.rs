@@ -53,7 +53,10 @@ fn count_collection_iterator(collection: &[HashMap<String, Progress>], value: Pr
     // collection is a slice of hashmaps.
     // collection = [{ "variables1": Complete, "from_str": None, ... },
     //     { "variables2": Complete, ... }, ... ]
-    collection.iter().flatten().collect::<HashMap<_, _>>().values().filter(|&&&v| v == value).count()
+    // collection.iter().flatten().collect::<HashMap<_, _>>().values().filter(|&&&v| v == value).count()
+    collection.iter().fold(0, |acc, hp| {
+        acc + hp.values().filter(|&&v| v == value).count()
+    })
 }
 
 #[cfg(test)]
